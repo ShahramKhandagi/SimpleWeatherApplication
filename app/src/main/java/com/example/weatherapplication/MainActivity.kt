@@ -44,16 +44,34 @@ class MainActivity : AppCompatActivity() {
 
                 val iconId = weatherObject.getString("icon")
                 val imageUrl = "http://openweathermap.org/img/wn/${iconId}@2x.png"
-
-
                 val temp = jsonObject.getJSONObject("main").getDouble("temp")
+                val sunRise = jsonObject.getJSONObject("sys").getInt("sunrise")
+                val sunSet = jsonObject.getJSONObject("sys").getInt("sunset")
+
+                val tempMin = jsonObject.getJSONObject("main").getDouble("temp_min")
+                val tempMax = jsonObject.getJSONObject("main").getDouble("temp_max")
+
+                val airPressure = jsonObject.getJSONObject("main").getInt("pressure")
+                val humidity = jsonObject.getJSONObject("main").getInt("humidity")
+
+                val windDeg = jsonObject.getJSONObject("wind").getInt("deg")
+                val windSpeed = jsonObject.getJSONObject("wind").getDouble("speed")
+
 
                 runOnUiThread {
                     showValue(
                             jsonObject.getString("name"),
                             weatherObject.getString("description"),
                             temp,
-                            imageUrl
+                            imageUrl,
+                            sunRise,
+                            sunSet,
+                            tempMin,
+                            tempMax,
+                            airPressure,
+                            humidity,
+                            windDeg,
+                            windSpeed
                     )
                 }
             }
@@ -62,12 +80,41 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun showValue(cityName: String, description: String, temp: Double, imageUrl: String) {
+    fun showValue(
+            cityName: String,
+            description: String,
+            temp: Double,
+            imageUrl: String,
+            sunRise: Int,
+            sunSet: Int,
+            tempMin: Double,
+            tempMax: Double,
+            airPressure: Int,
+            humidity: Int,
+            windDeg: Int,
+            windSpeed: Double
+    ) {
+
+
         binding.textViewCityName.text = cityName
         binding.textViewWeatherDescription.text = description
-        binding.textViewTemp.text = temp.toString()
+        binding.textViewTemp.text = temp.toString() + "°"
+        binding.textViewSunRise.text = getTimeFromUnixTime(sunRise) + " AM"
+        binding.textViewSunSet.text = getTimeFromUnixTime(sunSet) + " PM"
+        binding.textViewTemperaturedown.text = tempMin.toString()
+        binding.textViewTemperatureup.text = tempMax.toString()
+        binding.textViewAirPressure.text = airPressure.toString()
+        binding.textViewHumidity.text = humidity.toString()
+        binding.textViewWindDeg.text = windDeg.toString()
+        binding.textViewWindSpeed.text = windSpeed.toString()
 
 //        Glide.with(this).load(imageUrl).into(binding.)
 
+    }
+    fun getTimeFromUnixTime(unixTime: Int): String {
+        val time = unixTime * 1000.toLong()
+        val date = Date(time)
+        val formatter = SimpleDateFormat("HH:mm")
+        return formatter.format(date)
     }
 }
