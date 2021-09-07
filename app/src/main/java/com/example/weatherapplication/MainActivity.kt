@@ -1,10 +1,11 @@
 package com.example.weatherapplication
 
-import android.icu.text.DecimalFormat
-import android.icu.text.NumberFormat
+import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.example.weatherapplication.databinding.ActivityMainBinding
@@ -22,6 +23,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+
+
 
 
         //=========================================================================
@@ -48,9 +52,12 @@ class MainActivity : AppCompatActivity() {
         }
         
         binding.textViewCalender.text = "$currentMonth $year"
-        val simpleDateFormatter = SimpleDateFormat("hh:mm")
+        val simpleDateFormatter = SimpleDateFormat("HH:mm")
         val currentTime = simpleDateFormatter.format(Date())
         binding.textViewCurrentTime.text = currentTime
+
+
+
         //=========================================================================
 
 
@@ -125,6 +132,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    @SuppressLint("ResourceAsColor")
     fun showValue(
             cityName: String,
             description: String,
@@ -157,14 +165,39 @@ class MainActivity : AppCompatActivity() {
 
 
 
+        //===================================================================================================
+        //Add the ability to change the background day and night with the time of sunrise and sunset
+        val timeSunRise = sunRise * 1000.toLong()
+        val dateSunRise = Date(timeSunRise)
+        val formatterSunRise = SimpleDateFormat("HH")
+        val hourFormatterSunRise = formatterSunRise.format(dateSunRise).toInt()
+        val timeSunSet = sunSet * 1000.toLong()
+        val dateSunSet = Date(timeSunSet)
+        val formatterSunSet = SimpleDateFormat("HH")
+        val hourFormatterSunSet = formatterSunSet.format(dateSunSet).toInt()
+        val simpleDateFormatter = SimpleDateFormat("HH")
+        val currentHour = simpleDateFormatter.format(Date()).toInt()
+        if (currentHour >= hourFormatterSunSet || currentHour <= hourFormatterSunRise) {
+            binding.mainPaper.setBackgroundResource(R.drawable.nightlandscapewallpaper)
+            binding.textViewCurrentTime.setTextColor(Color.parseColor("#FFFFFFFF"))
+            binding.textViewCityName.setTextColor(Color.parseColor("#FFFFFFFF"))
+            binding.textViewWeatherDescription.setTextColor(Color.parseColor("#FFFFFFFF"))
+            binding.textViewTemp.setTextColor(Color.parseColor("#FFFFFFFF"))
+        }
+        //===================================================================================================
+
+
 
 //        Glide.with(this).load(imageUrl).into(binding.)
 
     }
+
     fun getTimeFromUnixTime(unixTime: Int): String {
         val time = unixTime * 1000.toLong()
         val date = Date(time)
         val formatter = SimpleDateFormat("HH:mm")
         return formatter.format(date)
     }
+
+
 }
