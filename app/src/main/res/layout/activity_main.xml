@@ -16,6 +16,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
         app:cardCornerRadius="15dp"
+        app:cardElevation="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewCurrentTime">
 
@@ -72,9 +73,10 @@
                 android:layout_height="130dp"
                 android:layout_marginEnd="24dp"
                 app:cardCornerRadius="10dp"
+                app:cardElevation="20dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" >
+                app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -168,6 +170,7 @@
                 android:layout_height="130dp"
                 android:layout_marginEnd="16dp"
                 app:cardCornerRadius="10dp"
+                app:cardElevation="20dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/cardView5"
                 app:layout_constraintTop_toTopOf="parent"
@@ -265,6 +268,7 @@
                 android:layout_height="130dp"
                 android:layout_marginEnd="16dp"
                 app:cardCornerRadius="10dp"
+                app:cardElevation="20dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/cardView4"
                 app:layout_constraintTop_toTopOf="parent">
@@ -361,6 +365,7 @@
                 android:layout_height="130dp"
                 android:layout_marginEnd="16dp"
                 app:cardCornerRadius="10dp"
+                app:cardElevation="20dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/cardView3"
                 app:layout_constraintTop_toTopOf="parent"
@@ -459,6 +464,7 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginEnd="16dp"
                 app:cardCornerRadius="10dp"
+                app:cardElevation="20dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/cardView2"
                 app:layout_constraintHorizontal_bias="1.0"
@@ -611,6 +617,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="32dp"
         app:cardCornerRadius="15dp"
+        app:cardElevation="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewCurrentTime">
 
@@ -651,8 +658,9 @@
         android:layout_marginTop="24dp"
         android:layout_marginEnd="10dp"
         app:cardCornerRadius="10dp"
+        app:cardElevation="20dp"
         app:layout_constraintEnd_toStartOf="@+id/textViewWeatherDescription"
-        app:layout_constraintTop_toBottomOf="@+id/textViewCityName" >
+        app:layout_constraintTop_toBottomOf="@+id/textViewCityName">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -678,6 +686,7 @@
         android:layout_marginEnd="60dp"
         android:layout_marginBottom="8dp"
         android:fontFamily="@font/vazir_medium"
+        android:gravity="center"
         android:onClick="reloadData"
         android:text="تهران"
         android:textColor="#000000"

@@ -3,13 +3,18 @@ package com.example.weatherapplication
 import android.R
 import android.annotation.SuppressLint
 import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.ContentView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.core.view.ContentInfoCompat
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bumptech.glide.Glide
 import com.example.weatherapplication.databinding.ActivityMainBinding
@@ -19,6 +24,7 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class MainActivity : AppCompatActivity() {
@@ -130,7 +136,6 @@ class MainActivity : AppCompatActivity() {
                     getCurrentCalenderAndTime()
                 }
             }
-
         })
     }
 
@@ -190,6 +195,13 @@ class MainActivity : AppCompatActivity() {
 
 
     fun reloadData(view: View) {
+
+
+        setDefaultOption()
+        var selectedTextView = view as TextView
+        selectedTextView.background = ContextCompat.getDrawable(this,com.example.weatherapplication.R.drawable.citytext_backgroundlight)
+        selectedTextView.setTextColor(Color.parseColor("#132C42"))
+
         binding.progressBar.visibility = View.VISIBLE
         binding.textViewCityName.text = "---"
         binding.textViewWeatherDescription.text = "---"
@@ -211,8 +223,6 @@ class MainActivity : AppCompatActivity() {
 
 
         getData()
-
-
 
 
     }
@@ -246,5 +256,19 @@ class MainActivity : AppCompatActivity() {
         binding.textViewCurrentTime.text = currentTime
         //=========================================================================
     }
+
+    fun setDefaultOption() {
+        var textViewOption = ArrayList<TextView>()
+        textViewOption.add(binding.textViewTabriz)
+        textViewOption.add(binding.textViewTehran)
+        textViewOption.add(binding.textViewMashhad)
+
+        for (textViewOption in textViewOption) {
+            textViewOption.setBackgroundResource(0)
+            textViewOption.setTextColor(Color.parseColor("#FFFFFFFF"))
+        }
+    }
+
+
 
 }
