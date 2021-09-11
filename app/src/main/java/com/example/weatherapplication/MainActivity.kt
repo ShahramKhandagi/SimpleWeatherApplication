@@ -29,6 +29,10 @@ import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
+    val tehran = "https://api.openweathermap.org/data/2.5/weather?q=tehran&appid=008f62bb7acf946eb8be7d3a2f3c282b&lang=fa&units=metric"
+    val tabriz = "https://api.openweathermap.org/data/2.5/weather?q=tabriz&appid=a8b5ae98e7fbf8d55e1fef5777eb6b5f&lang=fa&units=metric"
+    val mashhad = "https://api.openweathermap.org/data/2.5/weather?q=mashhad&appid=a8b5ae98e7fbf8d55e1fef5777eb6b5f&lang=fa&units=metric"
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +41,6 @@ class MainActivity : AppCompatActivity() {
 
         getCurrentCalenderAndTime()
         getData()
-
 
 
     }
@@ -79,7 +82,6 @@ class MainActivity : AppCompatActivity() {
                 .into(binding.imageViewWeatherIcon)
 
 
-
         //===================================================================================================
         //Add the ability to change the background day and night with the time of sunrise and sunset
         val timeSunRise = sunRise * 1000.toLong()
@@ -116,10 +118,30 @@ class MainActivity : AppCompatActivity() {
 
     private fun getData() {
 
+
         val client = OkHttpClient()
-        val request = Request.Builder()
-                .url("https://api.openweathermap.org/data/2.5/weather?q=tehran&appid=008f62bb7acf946eb8be7d3a2f3c282b&lang=fa&units=metric")
+
+        var request = Request.Builder()
+                .url(tabriz)
                 .build()
+
+        //================================================
+        // change cities data
+        if (binding.textViewTehran.isPressed) {
+            request = Request.Builder()
+                    .url(tehran)
+                    .build()
+        } else if (binding.textViewTabriz.isPressed) {
+            request = Request.Builder()
+                    .url(tabriz)
+                    .build()
+        } else if (binding.textViewMashhad.isPressed) {
+            request = Request.Builder()
+                    .url(mashhad)
+                    .build()
+        }
+        //================================================
+
 
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
@@ -194,13 +216,25 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     fun reloadData(view: View) {
 
 
         setDefaultOption()
-        var selectedTextView = view as TextView
-        selectedTextView.background = ContextCompat.getDrawable(this,com.example.weatherapplication.R.drawable.citytext_backgroundlight)
-        selectedTextView.setTextColor(Color.parseColor("#132C42"))
+
+        if (binding.mainPaper.background.constantState == resources.getDrawable(com.example.weatherapplication.R.drawable.daylandscapewallpaper).constantState) {
+            val selectedTextView = view as TextView
+            selectedTextView.background = ContextCompat.getDrawable(this, com.example.weatherapplication.R.drawable.citytext_backgroundlight)
+            selectedTextView.setTextColor(Color.parseColor("#132C42"))
+        } else if (binding.mainPaper.background.constantState == resources.getDrawable(com.example.weatherapplication.R.drawable.nightlandscapewallpaper).constantState) {
+            val selectedTextView = view as TextView
+            selectedTextView.background = ContextCompat.getDrawable(this, com.example.weatherapplication.R.drawable.citytext_backgrounddark)
+            selectedTextView.setTextColor(Color.parseColor("#FFFFFFFF"))
+        }
+
+
+
+
 
         binding.progressBar.visibility = View.VISIBLE
         binding.textViewCityName.text = "---"
@@ -234,7 +268,7 @@ class MainActivity : AppCompatActivity() {
         val year = Calendar.getInstance().get(Calendar.YEAR)
         val monthFormatter = SimpleDateFormat("MM")
         val currentMonth = monthFormatter.format(Date())
-        val day = LocalDate.now().getDayOfWeek().name
+        val day = LocalDate.now().dayOfWeek.name
         if (day == "SATURDAY") {
             binding.textViewDay.text = "شنبه"
         } else if (day == "SUNDAY") {
@@ -257,18 +291,27 @@ class MainActivity : AppCompatActivity() {
         //=========================================================================
     }
 
+    // TODO NIGHT OPTION
     fun setDefaultOption() {
-        var textViewOption = ArrayList<TextView>()
-        textViewOption.add(binding.textViewTabriz)
-        textViewOption.add(binding.textViewTehran)
-        textViewOption.add(binding.textViewMashhad)
+        var textViewCities = ArrayList<TextView>()
+        textViewCities.add(binding.textViewTabriz)
+        textViewCities.add(binding.textViewTehran)
+        textViewCities.add(binding.textViewMashhad)
 
-        for (textViewOption in textViewOption) {
-            textViewOption.setBackgroundResource(0)
-            textViewOption.setTextColor(Color.parseColor("#FFFFFFFF"))
+
+
+        if (binding.mainPaper.background.constantState == resources.getDrawable(com.example.weatherapplication.R.drawable.daylandscapewallpaper).constantState) {
+            for (textViewCities in textViewCities) {
+                textViewCities.setBackgroundResource(0)
+                textViewCities.setTextColor(Color.parseColor("#132C42"))
+            }
+        } else if (binding.mainPaper.background.constantState == resources.getDrawable(com.example.weatherapplication.R.drawable.nightlandscapewallpaper).constantState) {
+            for (textViewCities in textViewCities) {
+                textViewCities.setBackgroundResource(0)
+                textViewCities.setTextColor(Color.parseColor("#FFFFFFFF"))
+            }
         }
     }
-
 
 
 }
